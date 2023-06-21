@@ -18,6 +18,8 @@ class HistoricChartTest extends ModuleLevelTest {
 
 	private int $sampleSymbolTime;
 
+	protected bool $debugCaughtExceptions = true;
+
 	protected function setUp ():void {
 
 		$this->sampleSymbolTime = time();
@@ -32,6 +34,11 @@ class HistoricChartTest extends ModuleLevelTest {
 		];
 	}
 
+	/**
+	 * @return \Suphle\Modules\ModuleDescriptor[]
+	 *
+	 * @psalm-return list{\Suphle\Modules\ModuleDescriptor}
+	 */
 	protected function getModules ():array {
 
 		return [
@@ -48,6 +55,9 @@ class HistoricChartTest extends ModuleLevelTest {
 		];
 	}
 
+	/**
+	 * @return void
+	 */
 	public function test_can_render_company_historic_data () {
 
 		$this->get("/Symbol/ABAX") // when
@@ -56,6 +66,6 @@ class HistoricChartTest extends ModuleLevelTest {
 		// then
 		->assertSee("Showing Historical data for ABAXIS, Inc.")
 
-		->assertSee("<td>". $this->symbolTime, false);
+		->assertSee("<td>". $this->sampleSymbolTime, false);
 	}
 }

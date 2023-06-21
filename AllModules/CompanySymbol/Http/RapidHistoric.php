@@ -14,11 +14,19 @@ class RapidHistoric extends BaseHttpRequest {
 
 	private string $symbolToFetch;
 
+	/**
+	 * @return string
+	 *
+	 * @psalm-return 'https://yh-finance.p.rapidapi.com/stock/v3/get-historical-data'
+	 */
 	public function getRequestUrl ():string {
 
 		return "https://yh-finance.p.rapidapi.com/stock/v3/get-historical-data";
 	}
 
+	/**
+	 * @return static
+	 */
 	public function setSymbol (string $symbolToFetch):self {
 
 		$this->symbolToFetch = $symbolToFetch;
@@ -45,6 +53,11 @@ class RapidHistoric extends BaseHttpRequest {
 		]);
 	}
 
+	/**
+	 * @return SymbolHistory[]
+	 *
+	 * @psalm-return list{0?: SymbolHistory,...}
+	 */
 	protected function convertToDomainObject (ResponseInterface $response) {
 
 		$collection = [];

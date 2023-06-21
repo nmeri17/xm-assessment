@@ -13,11 +13,17 @@
 
 		use PingHttpServer;
 
+		/**
+		 * @return CompanySymbolDescriptor
+		 */
 		protected function getModule ():DescriptorInterface {
 
 			return new CompanySymbolDescriptor(new Container);
 		}
 
+		/**
+		 * @return void
+		 */
 		public function test_server_builds_successfully () {
 
 			$this->assertServerBuilds();

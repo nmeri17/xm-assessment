@@ -36,6 +36,9 @@ trait ValidatesSymbol {
     }
 
     // rethrow for it to skip the coordinator
+    /**
+     * @return never
+     */
     protected function translationFailure(): void
     {
 

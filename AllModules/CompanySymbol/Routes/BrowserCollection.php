@@ -10,16 +10,27 @@ use AllModules\CompanySymbol\Coordinators\BaseCoordinator;
 #[HandlingCoordinator(BaseCoordinator::class)]
 class BrowserCollection extends BaseCollection {
 
+	/**
+	 * @return string
+	 *
+	 * @psalm-return 'SYMBOL'
+	 */
 	public function _prefixCurrent ():string {
 
 		return "SYMBOL";
 	}
 
-	public function _index () {
+	/**
+	 * @return void
+	 */
+	public function ALL__SYMBOLSh () {
 
-		$this->_httpGet(new Markup("showSymbols", "partial/show-symbols"));
+		$this->_httpGet(new Markup("showSymbols", "partials/show-symbols"));
 	}
 
+	/**
+	 * @return void
+	 */
 	public function SUBMIT__SYMBOLh () {
 
 		$this->_httpPost(new Redirect("handleSymbolSelect", function () {
@@ -28,8 +39,11 @@ class BrowserCollection extends BaseCollection {
 		}));
 	}
 
+	/**
+	 * @return void
+	 */
 	public function id () {
 
-		$this->_httpGet(new Markup("showSymbolChart", "partial/show-symbol-chart"));
+		$this->_httpGet(new Markup("showSymbolChart", "partials/show-symbols-chart"));
 	}
 }

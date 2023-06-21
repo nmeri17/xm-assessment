@@ -15,11 +15,17 @@
 
 	class GracefulShutdownTest extends InvestigateSystemCrash {
 
+		/**
+		 * @return CompanySymbolDescriptor
+		 */
 		public function getModule ():DescriptorInterface {
 
 			return new CompanySymbolDescriptor(new Container);
 		}
 
+		/**
+		 * @return void
+		 */
 		public function test_graceful_shutdown_successful () {
 
 			$exceptionDetails = \Wyrihaximus\throwable_json_encode(new Exception); // given

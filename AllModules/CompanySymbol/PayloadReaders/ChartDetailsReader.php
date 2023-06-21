@@ -22,6 +22,9 @@ class ChartDetailsReader extends ModellessPayload {
         //
     }
 
+    /**
+     * @return string
+     */
     protected function convertToDomainObject() {
 
         $symbol = $this->pathPlaceholders->getSegmentValue("id");

@@ -7,6 +7,11 @@
 
 	class RouterMock extends Router {
 
+		/**
+		 * @return string
+		 *
+		 * @psalm-return BrowserCollection::class
+		 */
 		public function browserEntryRoute ():?string {
 
 			return BrowserCollection::class;

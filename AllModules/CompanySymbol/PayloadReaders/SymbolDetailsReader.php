@@ -22,6 +22,9 @@ class SymbolDetailsReader extends ModellessPayload {
         //
     }
 
+	/**
+	 * @return array
+	 */
 	protected function convertToDomainObject() {
 
         $payload = $this->payloadStorage->fullPayload();

@@ -13,16 +13,31 @@
 
 	class CompanySymbolDescriptor extends ModuleDescriptor {
 
+		/**
+		 * @return string
+		 *
+		 * @psalm-return CustomInterfaceCollection::class
+		 */
 		public function interfaceCollection ():string {
 
 			return CustomInterfaceCollection::class;
 		}
 
+		/**
+		 * @return string
+		 *
+		 * @psalm-return CompanySymbol::class
+		 */
 		public function exportsImplements():string {
 
 			return CompanySymbol::class;
 		}
 
+		/**
+		 * @return (AscendingHierarchy|mixed)[]
+		 *
+		 * @psalm-return array{'Suphle\\Contracts\\Config\\ModuleFiles'::class: AscendingHierarchy,...}
+		 */
 		public function globalConcretes ():array {
 
 			return array_merge(parent::globalConcretes(), [

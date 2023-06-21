@@ -12,6 +12,9 @@ class AppLayouts extends Component
         //
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render()
     {
 

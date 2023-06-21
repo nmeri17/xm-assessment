@@ -4,32 +4,33 @@ namespace AllModules\CompanySymbol\Tests\FeatureTests;
 
 use Suphle\Hydration\Container;
 
-use Suphle\Testing\{TestTypes\ModuleLevelTest, Condiments\QueueInterceptor};
+use Suphle\Testing\{TestTypes\ModuleLevelTest, Condiments\QueueInterceptor, Utilities\ArrayAssertions};
 
 use Suphle\Security\CSRF\CsrfGenerator;
 
-use AllModules\CompanySymbol\{Meta\CompanySymbolDescriptor, MailBuilders\SymbolReportMail};
+use AllModules\CompanySymbol\{Meta\CompanySymbolDescriptor, Tasks\SymbolReportTask};
 
 use DateTime, DateInterval;
 
 class IndexTest extends ModuleLevelTest {
 
-	use QueueInterceptor {
+	use QueueInterceptor, ArrayAssertions {
 
 		QueueInterceptor::setUp as queueSetup;
 	}
 
 	protected const COMPANY_SYMBOL = "ABAX";
 
-	private array $csrfField;
+	// protected bool $debugCaughtExceptions = true;
 
-	protected bool $debugCaughtExceptions = true;
+	/**
+	 * @return array
+	 *
+	 * @psalm-return array{_csrf_token: mixed}
+	 */
+	protected function getCsrfField ():array {
 
-	protected function setUp ():void {
-
-		$this->queueSetup();
-
-		$this->csrfField = [
+		return [
 
 			CsrfGenerator::TOKEN_FIELD => $this->getContainer()
 
@@ -37,16 +38,24 @@ class IndexTest extends ModuleLevelTest {
 		];
 	}
 
+	/**
+	 * @return CompanySymbolDescriptor[]
+	 *
+	 * @psalm-return list{CompanySymbolDescriptor}
+	 */
 	protected function getModules ():array {
 
 		return [new CompanySymbolDescriptor(new Container)];
 	}
 
+	/**
+	 * @return void
+	 */
 	public function test_loads_symbols_on_homepage () {
 
 		$todaysDate = date('Y-m-d');
 
-		$this->get("/symbol/") // when
+		$this->get("/symbol/all-symbols") // when
 
 		->assertOk() // sanity check
 		// then
@@ -59,24 +68,38 @@ class IndexTest extends ModuleLevelTest {
 
 	/**
 	 * @depends test_loads_symbols_on_homepage
-	*/
+	 *
+	 * @return void
+	 */
 	public function test_invalid_payload_renders_errors () {
 
-		$this->get("/Symbol"); // given
+		$this->get("/Symbol/all-symbols"); // given
 
 		$this->dataProvider([
 		
 			$this->getMissingFields(...)
-		], function (array $payload, string $errorDetails) {
+		], function (array $payload, string $missingKey) {
 
-			$this->post("/symbol/submit-symbol", array_merge($this->csrfField, $payload)) // when
+			$response = $this->post("/symbol/submit-symbol", array_merge($this->getCsrfField(), $payload)) // when
 			// then
-			->assertRedirect("/symbol")
+			->assertRedirect("/Symbol/all-symbols");
 
-			->assertSee($errorDetails);
+			$sessionPayload = $response->session()->allSessionEntries();
+
+			$this->assertArrayHasPath(
+
+				$sessionPayload,
+
+				"_flash_entry.validation_errors.$missingKey"
+			);
 		});
 	}
 
+	/**
+	 * @return ((mixed|string)[]|string)[][]
+	 *
+	 * @psalm-return list{list{array{report_to: 'vainglories17@gmail.com', start_date: string, end_date: string,...}, 'symbol'}}
+	 */
 	public function getMissingFields ():array {
 
 		$payload1 = $this->getValidPayload();
@@ -85,32 +108,41 @@ class IndexTest extends ModuleLevelTest {
 
 		return [
 
-			[$payload1, "Validation errors"]
+			[$payload1, "symbol"]
 		];
 	}
 
+	/**
+	 * @return void
+	 */
 	public function test_success_queuing_mail () {
 
-		$this->get("/Symbol"); // to have a rediret destination, just in case it fails
-
-		$this->assertPushed(SymbolReportMail::class); // probably confirm this runs
+		$this->get("/Symbol/all-symbols"); // to have a rediret destination, just in case it fails
 
 		$this->post("/symbol/submit-symbol", $this->getValidPayload())
 
-		->assertRedirect("/symbol/". self::COMPANY_SYMBOL);
+		->assertRedirect("/Symbol/". self::COMPANY_SYMBOL);
+
+		$this->assertPushed(SymbolReportTask::class); // probably confirm this runs
 	}
 
+	/**
+	 * @return (mixed|string)[]
+	 *
+	 * @psalm-return array{_csrf_token: mixed, symbol: 'ABAX', report_to: 'vainglories17@gmail.com', start_date: string, end_date: string}
+	 */
 	protected function getValidPayload ():array {
 
-		$today = new DateTime();
+		$aWeekLater = (new DateTime())->add(new DateInterval("P7D"));
 
-		$aWeekLater = $today->add(new DateInterval("P7D"));
-
-		return array_merge($this->csrfField, [
+		return array_merge($this->getCsrfField(), [
 			"symbol" => self::COMPANY_SYMBOL,
+			
 			"report_to" => "vainglories17@gmail.com",
-			"start_date" => $today,
-			"end_date" => $aWeekLater
+			
+			"start_date" => (new DateTime())->format("Y-m-d"),
+			
+			"end_date" => $aWeekLater->format("Y-m-d")
 		]);
 	}
 }

@@ -25,6 +25,11 @@ class BaseCoordinator extends ServiceCoordinator {
 		//
 	}
 
+	/**
+	 * @return (array|string)[]
+	 *
+	 * @psalm-return array{allSymbols: array, csrf_token: string}
+	 */
 	public function showSymbols ():array {
 
 		return [
@@ -35,6 +40,11 @@ class BaseCoordinator extends ServiceCoordinator {
 		];
 	}
 
+	/**
+	 * @return array
+	 *
+	 * @psalm-return array{symbol: mixed}
+	 */
 	#[ValidationRules([
 
 		"symbol" => "required|alpha:ascii",
@@ -51,9 +61,14 @@ class BaseCoordinator extends ServiceCoordinator {
 		return ["symbol" => $payload["symbol"]];
 	}
 
+	/**
+	 * @return (\Suphle\Services\Nullable|mixed|null)[]
+	 *
+	 * @psalm-return array{companyName: mixed|null, historicData: \Suphle\Services\Nullable}
+	 */
 	#[ValidationRules([
 
-		"symbol" => "required|alpha:ascii"
+		"id" => "required|alpha:ascii"
 	])]
 	public function showSymbolChart (ChartDetailsReader $chartReader):array {
 

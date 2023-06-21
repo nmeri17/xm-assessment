@@ -38,7 +38,7 @@
 			<input type="submit" value="fetch details">
 		</form>
 
-		@if ($validation_errors)
+		@isset ($validation_errors)
 			
 			<div id="validation-errors">
 				<h3>Validation errors</h3>
@@ -53,6 +53,6 @@
 					@endforeach
 				</ul>
 			</div>
-		@endif
+		@endisset
 	</main>
 </layout>

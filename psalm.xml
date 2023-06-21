@@ -14,9 +14,9 @@
             <directory name="vendor" />
             <directory name="ModuleTemplate" />
 
-            <file name="AllModules\Products\Tests\Exceptions\DisgracefulShutdownTest.php" />
+            <file name="AllModules\CompanySymbol\Tests\Exceptions\DisgracefulShutdownTest.php" />
 
-            <file name="AllModules\Products\Meta\CustomInterfaceCollection.php" />
+            <file name="AllModules\CompanySymbol\Meta\CustomInterfaceCollection.php" />
         </ignoreFiles>
 
         <ignoreFiles>
