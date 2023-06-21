@@ -1,0 +1,24 @@
+{
+    "name": "nmeri/suphle-starter",
+    "type": "project",
+    "description": "Setup Suphle folder structure and provide workers or entry scripts for handling incoming requests",
+    "autoload": {
+        "psr-4": {
+            "AllModules\\": "AllModules/",
+            "AppModels\\": "AppModels/",
+            "ModuleInteractions\\": "ModuleInteractions/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "nmeri/suphle": "*"
+    },
+    "require-dev": {},
+    "scripts": {
+        "post-create-project-cmd": [
+            "rr get-binary --location=./vendor/bin"
+        ]
+    }
+}
