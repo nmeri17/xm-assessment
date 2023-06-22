@@ -2,11 +2,12 @@ Built courtesy of the [Suphle framework](https://suphle.com)
 
 ## steps to execute
 
-	- clone. run composer install. run the server start command
+	- Installation: run composer create-project. Tests can execute at this point. 
+        - To run in browser: run php suphle server:start AllModules --insane
 
 ## run tests
 
-	- connect composer to test command (make this generic)
+	- phpunit test/file.php. They are all contained under AllModules/companySymbols/tests/featureTests
 ## info
-	- list all possible routes
-	- not using migrations since the tests will attempt to seed data, which isn't applicable in this scenario. Data is either fetched from an external API or fixed
+	- entry route via browser: localhost:8080/symbols/all-symbols 
+	- I'm not using migrations since the tests will attempt to seed data, which isn't applicable in this scenario. Data is either fetched from an external API or fixed
