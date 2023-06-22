@@ -98,7 +98,7 @@ class IndexTest extends ModuleLevelTest {
 	/**
 	 * @return ((mixed|string)[]|string)[][]
 	 *
-	 * @psalm-return list{list{array{report_to: 'vainglories17@gmail.com', start_date: string, end_date: string,...}, 'symbol'}}
+	 * @psalm-return list{list{array{_csrf_token: mixed, report_to: 'vainglories17@gmail.com', start_date: string, end_date: string}, 'symbol'}}
 	 */
 	public function getMissingFields ():array {
 
