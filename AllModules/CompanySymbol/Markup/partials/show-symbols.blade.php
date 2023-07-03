@@ -1,5 +1,9 @@
-<layout title="Show Symbols">
-
+<x-layout page_title="Show Symbols">
+	
+	<x-slot:scripts>
+		<script src="/js/index.js"></script>
+	</x-slot>
+	
 	<main>
 		<h3>fill the form below</h3>
 		<form method="post" action="/symbol/submit-symbol">
@@ -31,7 +35,7 @@
 			<br>
 
 			<label>Email: </label>
-			<input type="email" name="report_to" required value="{{@$payload_storage['email']}}">
+			<input type="email" name="report_to" required value="{{@$payload_storage['report_to']}}">
 
 			<br>
 
@@ -55,4 +59,4 @@
 			</div>
 		@endisset
 	</main>
-</layout>
+</x-layout>

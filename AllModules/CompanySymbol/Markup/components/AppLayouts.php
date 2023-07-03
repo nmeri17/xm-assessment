@@ -6,7 +6,8 @@ use Illuminate\View\Component;
 
 class AppLayouts extends Component
 {
-    public function __construct($pageTitle, $scripts)
+    public function __construct(
+        public string $pageTitle = "Suphle", public string $scripts = "")
     {
 
         //

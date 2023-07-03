@@ -3,9 +3,9 @@
 
 	use Suphle\Hydration\Structures\BaseInterfaceCollection;
 
-	use Suphle\Contracts\{Config\Router, Auth\UserContract};
+	use Suphle\Contracts\{Config\Router, Auth\UserContract, Presentation\HtmlParser};
 
-	use AllModules\CompanySymbol\Config\RouterMock;
+	use AllModules\CompanySymbol\Config\{RouterMock, CustomBladeAdapter};
 
 	use AppModels\User as EloquentUser; // hard-coded cuz different processes control module cloning and component ejection
 
@@ -27,7 +27,9 @@
 
 				CompanySymbol::class => ModuleApi::class,
 
-				UserContract::class => EloquentUser::class
+				UserContract::class => EloquentUser::class,
+
+				HtmlParser::class => CustomBladeAdapter::class
 			]);
 		}
 	}

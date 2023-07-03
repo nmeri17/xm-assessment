@@ -1,13 +1,4 @@
-@section("scripts")
-
-	<!--<script src="https://cdnjs.com/libraries/Chart.js"></script>
-
-	<script>
-	    const myChart = new Chart(ctx, {...});
-	</script>-->
-@endsection
-
-<layout title="Showing Historical data for {{$companyName}}">
+<x-layout :page_title="'Showing Historical data for $companyName'">
 
 	<main>
 		<table>
@@ -36,4 +27,4 @@
 
 		<div>//do charty stuff</div>
 	</main>
-</layout>
+</x-layout>

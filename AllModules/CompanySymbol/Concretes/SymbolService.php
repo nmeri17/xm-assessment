@@ -35,7 +35,7 @@ class SymbolService extends UpdatelessService {
 		), true);
 	}
 
-	public function queueSymbolReport (array $reportPayload):void {
+	public function queueReport (array $reportPayload):void {
 
 		$this->queueManager
 

@@ -4,7 +4,7 @@ namespace AllModules\CompanySymbol\Config;
 
 use Suphle\Adapters\Presentation\Blade\DefaultBladeAdapter;
 
-use AllModules\CompanySymbol\Markup\Components\AppLayout;
+use AllModules\CompanySymbol\Markup\Components\AppLayouts;
 
 class CustomBladeAdapter extends DefaultBladeAdapter
 {

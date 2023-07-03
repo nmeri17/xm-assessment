@@ -5,6 +5,8 @@ use Suphle\Services\{ServiceCoordinator, Decorators\ValidationRules};
 
 use Suphle\Security\CSRF\CsrfGenerator;
 
+use Suphle\Contracts\IO\Session;
+
 use AllModules\CompanySymbol\Concretes\SymbolService;
 
 use AllModules\CompanySymbol\PayloadReaders\{SymbolDetailsReader, ChartDetailsReader};
@@ -14,6 +16,8 @@ use AllModules\CompanySymbol\Http\RapidHistoric;
 class BaseCoordinator extends ServiceCoordinator {
 
 	public function __construct (
+
+		protected readonly Session $sessionClient,
 	
 		protected readonly SymbolService $symbolService,
 
@@ -32,12 +36,12 @@ class BaseCoordinator extends ServiceCoordinator {
 	 */
 	public function showSymbols ():array {
 
-		return [
+		return $this->copyValidationErrors([
 		
 			"allSymbols" => $this->symbolService->getAllSymbols(),
 
 			"csrf_token" => $this->csrf->newToken()
-		];
+		]);
 	}
 
 	/**
@@ -56,7 +60,7 @@ class BaseCoordinator extends ServiceCoordinator {
 
 		$payload = $symbolReader->getDomainObject();
 
-		$this->symbolService->queueSymbolReport($payload);
+		$this->symbolService->queueReport($payload);
 
 		return ["symbol" => $payload["symbol"]];
 	}
@@ -81,7 +85,7 @@ class BaseCoordinator extends ServiceCoordinator {
 		
 			"historicData" => $this->historicApi->setSymbol($symbolId)
 
-			->getDomainObject()
+			->getDomainObject() ?? []
 		];
 	}
 }

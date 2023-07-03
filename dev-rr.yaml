@@ -15,7 +15,13 @@ server:
 http:
   address: localhost:8080
   pool:
-    num_workers: 4
+    num_workers: 1
+  middleware: ["headers", "static", "gzip"]
+  uploads:
+    forbid: [".php", ".exe", ".bat"]
+  static:
+    dir: "public"
+    forbid: [".php", ".htaccess"]
 
 # Boltdb jobs driver
 #
@@ -37,7 +43,7 @@ reload:
   # Global patterns to sync.
   #
   # Default: [".php"]
-  patterns: [ ".php" ]
+  patterns: [ ".php", ".env" ]
 
   # List of included for sync services (this is a map, where key name is a plugin name).
   #
@@ -58,7 +64,8 @@ reload:
       # Ignored folders.
       #
       # Default: []
-      ignore: [ "vendor" ]
+      #"vendor"
+      ignore: [  ]
 
       # Service specific file pattens to sync.
       #
@@ -82,7 +89,7 @@ jobs:
   pool:
     #command: "php manual-flow-starter.php"
     #max_jobs: 0
-    num_workers: 10 #1
+    num_workers: 1 #1
     allocate_timeout: 60s
     destroy_timeout: 60s
 

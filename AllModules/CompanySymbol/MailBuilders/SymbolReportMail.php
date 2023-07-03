@@ -6,9 +6,15 @@ use Suphle\IO\Mailing\MailBuilder;
 
 use AllModules\CompanySymbol\Concretes\SymbolService;
 
+use Suphle\Contracts\IO\MailClient;
+
 class SymbolReportMail extends MailBuilder {
 
-	public function __construct (protected readonly SymbolService $symbolService) {
+	public function __construct (
+		protected readonly MailClient $mailClient,
+
+		protected readonly SymbolService $symbolService
+	) {
 
 		//
 	}
